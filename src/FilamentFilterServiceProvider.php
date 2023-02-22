@@ -2,11 +2,11 @@
 
 namespace Creative2LLC\FilamentFilter;
 
+use Creative2LLC\FilamentFilter\Commands\FilamentFilterCommand;
+use Creative2LLC\FilamentFilter\Http\Livewire\QueryBuilder;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Creative2LLC\FilamentFilter\Http\Livewire\QueryBuilder;
-use Creative2LLC\FilamentFilter\Commands\FilamentFilterCommand;
 
 class FilamentFilterServiceProvider extends PackageServiceProvider
 {
@@ -24,8 +24,6 @@ class FilamentFilterServiceProvider extends PackageServiceProvider
             ->hasMigration('create_filament-filter_table')
             ->hasCommand(FilamentFilterCommand::class);
     }
-
-
 
     public function bootingPackage()
     {

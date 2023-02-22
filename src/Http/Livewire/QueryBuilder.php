@@ -4,7 +4,6 @@ namespace Creative2LLC\FilamentFilter\Http\Livewire;
 
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Builder\Block;
-use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Component as FilamentComponent;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
@@ -20,6 +19,7 @@ class QueryBuilder extends Component implements HasForms
     use InteractsWithForms;
 
     public $columns = [];
+
     public $resetable = false;
 
     public function mount($columns = [])

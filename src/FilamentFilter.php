@@ -4,12 +4,9 @@ namespace Creative2LLC\FilamentFilter;
 
 class FilamentFilter
 {
-
     public static function applyQuery($query, $conditionals)
     {
-
         foreach ($conditionals as $index => $conditional) {
-
             $subQuery = [];
 
             foreach ($conditional['data']['and_condition'] as $key => $q) {
@@ -24,7 +21,5 @@ class FilamentFilter
         }
 
         return $query;
-
     }
-
 }
