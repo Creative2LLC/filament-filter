@@ -2,12 +2,12 @@
 
 namespace Creative2LLC\FilamentFilter;
 
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Builder\Block;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 
 class FilamentFilter
 {
@@ -32,7 +32,6 @@ class FilamentFilter
 
     public static function field($columns = [], $label = 'conditions')
     {
-
         $conditionSchema = [
             Repeater::make('and_condition')
                 ->schema([
@@ -76,5 +75,4 @@ class FilamentFilter
                         ->schema($conditionSchema),
                 ]);
     }
-
 }
