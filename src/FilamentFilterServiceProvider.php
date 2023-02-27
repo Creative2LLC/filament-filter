@@ -2,7 +2,6 @@
 
 namespace Creative2LLC\FilamentFilter;
 
-use Creative2LLC\FilamentFilter\Commands\FilamentFilterCommand;
 use Creative2LLC\FilamentFilter\Http\Livewire\QueryBuilder;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
