@@ -1,19 +1,6 @@
-# This is my package filament-filter
+# Filament Filter
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/creative2llc/filament-filter.svg?style=flat-square)](https://packagist.org/packages/creative2llc/filament-filter)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/creative2llc/filament-filter/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/creative2llc/filament-filter/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/creative2llc/filament-filter/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/creative2llc/filament-filter/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/creative2llc/filament-filter.svg?style=flat-square)](https://packagist.org/packages/creative2llc/filament-filter)
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/filament-filter.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/filament-filter)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Filament Filter is a Laravel package that provides a simple and elegant way to add filters to your Filament admin panel. With Filament Filter, you can easily create filters that allow your users to search, sort, and filter your data based on specific criteria. 
 
 ## Installation
 
@@ -23,37 +10,28 @@ You can install the package via composer:
 composer require creative2llc/filament-filter
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="filament-filter-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="filament-filter-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="filament-filter-views"
-```
-
 ## Usage
 
+To add the filter to your Filament Resource, navigate to the `ListRecords` class you are extending, and include the 'HasFilamentFilter' trait. Also make sure to include the `getColumnsProperty()` method, which will return an array of columns that you want to be searchable. The key of the array will be the database column name, and the value will be the user facing column name.
+
 ```php
-$filamentFilter = new Creative2LLC\FilamentFilter();
-echo $filamentFilter->echoPhrase('Hello, Creative2LLC!');
+
+class ListPosts extends ListRecords
+{
+
+    use HasFilamentFilter;
+
+    protected static string $resource = Post::class;
+
+    public function getColumnsProperty(): array
+    {
+        return [
+            'database_column' => 'User Facing Column Name',
+        ];
+    }
+
+}
+
 ```
 
 ## Testing

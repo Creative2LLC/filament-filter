@@ -18,11 +18,7 @@ class FilamentFilterServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('filament-filter')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_filament-filter_table')
-            ->hasCommand(FilamentFilterCommand::class);
+            ->name('filament-filter');
     }
 
     public function bootingPackage()
