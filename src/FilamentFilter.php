@@ -26,7 +26,9 @@ class FilamentFilter
                     $q['column'] = $q['custom_column'];
                 }
 
-                if (Schema::hasColumn($tableName, $q['column'])) {
+                $column = explode('->', $q['column']);
+
+                if (Schema::hasColumn($tableName, $column[0])){
                     $subQuery[] = [$q['column'], $q['operator'], $q['value']];
                 }
             }
