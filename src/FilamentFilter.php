@@ -2,22 +2,36 @@
 
 namespace Creative2LLC\FilamentFilter;
 
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Builder\Block;
+use Closure;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Builder;
+use Illuminate\Support\Facades\Schema;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Builder\Block;
 
 class FilamentFilter
 {
     public static function applyQuery($query, $conditionals)
     {
+
+        $tableName = $query->getModel()->getTable();
+
         foreach ($conditionals as $index => $conditional) {
             $subQuery = [];
 
             foreach ($conditional['data']['and_condition'] as $key => $q) {
-                $subQuery[] = [$q['column'], $q['operator'], $q['value']];
+
+                if ($q['column'] == 'custom:field') {
+                    $q['column'] = $q['custom_column'];
+                }
+
+                if (Schema::hasColumn($tableName, $q['column'])){
+                    $subQuery[] = [$q['column'], $q['operator'], $q['value']];
+                }
+
             }
 
             if ($conditional['type'] == 'and') {
@@ -37,9 +51,22 @@ class FilamentFilter
                 ->schema([
                     Grid::make(3)
                         ->schema([
-                            Select::make('column')
-                                ->options($columns)
-                                ->searchable(),
+                            Fieldset::make('Column')
+                                ->schema([
+                                    Select::make('column')
+                                        ->options([
+                                            ...$columns,
+                                            'custom:field' => 'Custom Column',
+                                            'custom:field' => 'Other Column'
+                                        ])
+                                        ->searchable()
+                                        ->reactive()
+                                        ->columnSpanFull(),
+                                    TextInput::make('custom_column')
+                                        ->hidden(fn (Closure $get) => $get('column') !== 'custom:field')
+                                        ->columnSpanFull(),
+                                ])
+                                ->columnSpan(1),
                             Select::make('operator')
                                 ->options([
                                     '=' => 'Equals',
