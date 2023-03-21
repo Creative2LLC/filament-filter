@@ -3,35 +3,32 @@
 namespace Creative2LLC\FilamentFilter;
 
 use Closure;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Builder;
-use Illuminate\Support\Facades\Schema;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Builder\Block;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Illuminate\Support\Facades\Schema;
 
 class FilamentFilter
 {
     public static function applyQuery($query, $conditionals)
     {
-
         $tableName = $query->getModel()->getTable();
 
         foreach ($conditionals as $index => $conditional) {
             $subQuery = [];
 
             foreach ($conditional['data']['and_condition'] as $key => $q) {
-
                 if ($q['column'] == 'custom:field') {
                     $q['column'] = $q['custom_column'];
                 }
 
-                if (Schema::hasColumn($tableName, $q['column'])){
+                if (Schema::hasColumn($tableName, $q['column'])) {
                     $subQuery[] = [$q['column'], $q['operator'], $q['value']];
                 }
-
             }
 
             if ($conditional['type'] == 'and') {
@@ -57,7 +54,7 @@ class FilamentFilter
                                         ->options([
                                             ...$columns,
                                             'custom:field' => 'Custom Column',
-                                            'custom:field' => 'Other Column'
+                                            'custom:field' => 'Other Column',
                                         ])
                                         ->searchable()
                                         ->reactive()
