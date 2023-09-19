@@ -19,26 +19,40 @@ class FilamentFilter
         $tableName = $query->getModel()->getTable();
 
         foreach ($conditionals as $index => $conditional) {
-            $subQuery = [];
+            $query->where(function ($subQuery) use ($tableName, $conditional) {
+                foreach ($conditional['data']['and_condition'] as $key => $q) {
+                    if ($q['column'] == 'custom:field') {
+                        $q['column'] = $q['custom_column'];
+                    }
 
-            foreach ($conditional['data']['and_condition'] as $key => $q) {
-                if ($q['column'] == 'custom:field') {
-                    $q['column'] = $q['custom_column'];
+                    $column = explode('->', $q['column']);
+
+                    if (Schema::hasColumn($tableName, $column[0])) {
+                        if (isset($column[1])) {
+                            $rawQuery = "JSON_EXTRACT(LOWER({$column[0]}), '$.{$column[1]}') {$q['operator']} ?";
+                        } else {
+                            $rawQuery = "LOWER({$column[0]}) {$q['operator']} ?";
+                        }
+
+                        if (in_array($q['operator'], ['like', 'not like'])) {
+                            $value = '%'.$q['value'].'%';
+                        } else {
+                            $value = $q['value'];
+                        }
+
+                        $value = strtolower($value);
+
+                        if ($conditional['type'] == 'and') {
+                            $subQuery->whereRaw($rawQuery, $value);
+                        } else {
+                            $subQuery->orWhereRaw($rawQuery, $value);
+                        }
+                    }
                 }
-
-                $column = explode('->', $q['column']);
-
-                if (Schema::hasColumn($tableName, $column[0])) {
-                    $subQuery[] = [$q['column'], $q['operator'], $q['value']];
-                }
-            }
-
-            if ($conditional['type'] == 'and') {
-                $query->where($subQuery);
-            } else {
-                $query->orWhere($subQuery);
-            }
+            });
         }
+
+        // ray($query->toSql());
 
         return $query;
     }
