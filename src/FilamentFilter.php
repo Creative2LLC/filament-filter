@@ -106,13 +106,13 @@ class FilamentFilter
         ];
 
         return Builder::make($label)
-                ->blocks([
-                    Block::make('and')
-                        ->label('+ And')
-                        ->schema($conditionSchema),
-                    Block::make('or')
-                        ->label('+ Or')
-                        ->schema($conditionSchema),
-                ]);
+            ->blocks([
+                Block::make('and')
+                    ->label('+ And')
+                    ->schema($conditionSchema),
+                Block::make('or')
+                    ->label('+ Or')
+                    ->schema($conditionSchema),
+            ]);
     }
 }
