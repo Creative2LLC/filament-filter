@@ -29,6 +29,6 @@ trait HasFilamentFilter
             return FilamentFilter::applyQuery($query, $this->customQuery);
         }
 
-        return $query;
+        return parent::applySearchToTableQuery($query);
     }
 }
